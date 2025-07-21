@@ -45,7 +45,6 @@ pub enum LanguageId {
     Python,
     Rust,
     Scala,
-
     // TODO
 }
 

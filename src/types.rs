@@ -1,3 +1,12 @@
+// add serialization
+
+use serde::{Deserialize, Serialize};
+use serde_repr::{Deserialize_repr, Serialize_repr};
+use serde_with::skip_serializing_none;
+
+#[derive(Serialize, Deserialize)]
+#[skip_serializing_none]
+#[serde(rename_all = "camelCase")]
 pub struct BuildTarget {
     id: BuildTargetIdentifier,
     display_name: Option<String>,
@@ -10,12 +19,15 @@ pub struct BuildTarget {
     data: Option<BuildTargetData>,
 }
 
+#[derive(Serialize, Deserialize)]
 pub struct BuildTargetIdentifier {
     uri: URI,
 }
 
 pub type URI = String;
 
+#[derive(Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
 pub enum BuildTargetTag {
     Application,
     Benchmark,
@@ -26,10 +38,14 @@ pub enum BuildTargetTag {
     Test,
 }
 
+#[derive(Serialize, Deserialize)]
 pub enum LanguageId {
     // TODO
 }
 
+#[derive(Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[skip_serializing_none]
 pub struct BuildTargetCapabilities {
     can_compile: Option<bool>,
     can_test: Option<bool>,
@@ -37,6 +53,8 @@ pub struct BuildTargetCapabilities {
     can_debug: Option<bool>,
 }
 
+#[derive(Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
 pub enum BuildTargetDataKind {
     Cargo,
     Cpp,
@@ -50,6 +68,8 @@ pub type BuildTargetData = serde_json::Value;
 
 pub type OriginId = String;
 
+#[derive(Serialize, Deserialize)]
+#[skip_serializing_none]
 pub struct TaskId {
     id: Identifier,
     parents: Option<Vec<Identifier>>,
@@ -57,6 +77,8 @@ pub struct TaskId {
 
 pub type Identifier = String;
 
+#[derive(Serialize_repr, Deserialize_repr)]
+#[repr(u8)]
 pub enum StatusCode {
     Ok,
     Error,

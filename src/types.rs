@@ -1,5 +1,3 @@
-// add serialization
-
 use serde::{Deserialize, Serialize};
 use serde_repr::{Deserialize_repr, Serialize_repr};
 use serde_with::skip_serializing_none;
@@ -39,7 +37,15 @@ pub enum BuildTargetTag {
 }
 
 #[derive(Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
 pub enum LanguageId {
+    C,
+    Cpp,
+    Java,
+    Python,
+    Rust,
+    Scala,
+
     // TODO
 }
 

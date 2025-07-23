@@ -1,9 +1,7 @@
 use serde::Deserialize;
 
 #[derive(Deserialize)]
-pub struct Config {
-
-}
+pub struct Config {}
 
 impl Config {
     pub fn from_file(path: &str) -> anyhow::Result<Self> {

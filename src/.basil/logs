@@ -1,7 +1,2 @@
-[2m2025-07-23T15:39:03.054253Z[0m [31mERROR[0m [2mbasil[0m[2m:[0m stream did not contain valid UTF-8
-2025-07-23T15:44:16.878833Z DEBUG basil::config: Loading config from /Users/bobbypalmer/projects/basil/target/debug/basil
-2025-07-23T15:44:16.880508Z ERROR basil: stream did not contain valid UTF-8
-2025-07-23T15:45:04.361583Z ERROR basil: Missing basil config file arg
-2025-07-23T15:48:36.044500Z ERROR basil: Missing basil config file arg
-2025-07-23T15:48:40.335683Z ERROR basil: arg
-2025-07-23T15:51:36.148335Z ERROR basil: Cannot read config from arg
+[2m2025-07-23T15:52:31.114355Z[0m [31mERROR[0m [2mbasil[0m[2m:[0m Missing basil config file arg
+[2m2025-07-23T15:52:48.512068Z[0m [31mERROR[0m [2mbasil[0m[2m:[0m Cannot read config from notafile

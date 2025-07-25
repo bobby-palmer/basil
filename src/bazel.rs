@@ -1,1 +1,1 @@
-pub trait BazelClient {}
+pub struct BazelClient;

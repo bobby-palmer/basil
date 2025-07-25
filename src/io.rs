@@ -1,3 +1,3 @@
-pub trait MessageReader {}
+pub struct MessageReader;
 
-pub trait MessageWriter {}
+pub struct MessageWriter;

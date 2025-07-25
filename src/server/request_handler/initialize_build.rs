@@ -1,25 +1,26 @@
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
 
-use crate::server::{
-    bsp_types::{LanguageId, URI},
-    request_handler::WithParamsHandler,
-};
+use crate::server::bsp_types::{LanguageId, URI};
 
 pub struct InitializeBuildHandler;
 
-impl WithParamsHandler<InitializeBuildParams, InitializeBuildResult> for InitializeBuildHandler {
+impl super::WithParamsHandler for InitializeBuildHandler {
+    type Input = InitializeBuildParams;
+
+    type Output = InitializeBuildResult;
+
     async fn handle(
         ctx: &crate::server::context::Context,
-        params: InitializeBuildParams,
-    ) -> Result<InitializeBuildResult, crate::server::error::BasilError> {
+        params: Self::Input,
+    ) -> Result<Self::Output, crate::server::error::BasilError> {
         todo!()
     }
 }
 
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
-struct InitializeBuildParams {
+pub struct InitializeBuildParams {
     /// Name of the client
     display_name: String,
 
@@ -53,7 +54,7 @@ struct BuildClientCapabilities {
 
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
-struct InitializeBuildResult {
+pub struct InitializeBuildResult {
     /// Name of the server
     display_name: String,
 

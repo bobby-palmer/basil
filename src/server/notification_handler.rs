@@ -13,14 +13,13 @@ impl NotificationHandler {
     }
 }
 
-trait WithParamsHandler<P>
-where
-    P: DeserializeOwned,
-{
-    async fn handle(ctx: &Context, params: P);
+trait WithParamsHandler {
+    type Input: DeserializeOwned;
+
+    async fn handle(ctx: &Context, params: Self::Input);
 
     async fn call(ctx: &Context, params: Option<Value>) {
-        let params = params.and_then(|p| serde_json::from_value::<P>(p).ok());
+        let params = params.and_then(|p| serde_json::from_value::<Self::Input>(p).ok());
 
         if let Some(params) = params {
             Self::handle(ctx, params).await;

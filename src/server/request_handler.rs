@@ -1,4 +1,5 @@
 mod initialize_build;
+use initialize_build::InitializeBuildHandler;
 
 use serde::{Serialize, de::DeserializeOwned};
 use serde_json::Value;
@@ -9,22 +10,22 @@ pub struct RequestHandler;
 
 impl RequestHandler {
     pub async fn call(
-        method: String,
+        method: &str,
         ctx: &Context,
         params: Option<Value>,
     ) -> Result<Value, BasilError> {
         match method {
-            other_method => Err(BasilError::MethodNotFound(other_method)),
+            "build/initialize" => InitializeBuildHandler::call(ctx, params).await,
+            other_method => Err(BasilError::MethodNotFound(other_method.to_owned())),
         }
     }
 }
 
-trait WithParamsHandler<P, R>
-where
-    P: DeserializeOwned,
-    R: Serialize,
-{
-    async fn handle(ctx: &Context, params: P) -> Result<R, BasilError>;
+trait WithParamsHandler {
+    type Input: DeserializeOwned;
+    type Output: Serialize;
+
+    async fn handle(ctx: &Context, params: Self::Input) -> Result<Self::Output, BasilError>;
 
     async fn call(ctx: &Context, params: Option<Value>) -> Result<Value, BasilError> {
         let params = match params {
@@ -32,7 +33,7 @@ where
             None => Err(BasilError::InvalidParams("Missing params".to_owned())),
         }?;
 
-        let params: P = serde_json::from_value(params)
+        let params: Self::Input = serde_json::from_value(params)
             .map_err(|err| BasilError::InvalidParams(err.to_string()))?;
         Self::handle(ctx, params)
             .await
@@ -40,11 +41,10 @@ where
     }
 }
 
-trait NoParamsHandler<R>
-where
-    R: Serialize,
-{
-    async fn handle(ctx: &Context) -> Result<R, BasilError>;
+trait NoParamsHandler {
+    type Output: Serialize;
+
+    async fn handle(ctx: &Context) -> Result<Self::Output, BasilError>;
 
     async fn call(ctx: &Context, _params: Option<Value>) -> Result<Value, BasilError> {
         Self::handle(ctx)

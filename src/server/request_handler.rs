@@ -1,6 +1,9 @@
 mod initialize_build;
 use initialize_build::InitializeBuildHandler;
 
+mod workspace_build_targets;
+use workspace_build_targets::WorkspaceBuildTargetsHandler;
+
 use serde::{Serialize, de::DeserializeOwned};
 use serde_json::Value;
 
@@ -16,6 +19,7 @@ impl RequestHandler {
     ) -> Result<Value, BasilError> {
         match method {
             "build/initialize" => InitializeBuildHandler::call(ctx, params).await,
+            "workspace/buildTargets" => WorkspaceBuildTargetsHandler::call(ctx, params).await,
             other_method => Err(BasilError::MethodNotFound(other_method.to_owned())),
         }
     }

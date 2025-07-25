@@ -1,5 +1,3 @@
-use crate::config::Config;
-
 mod bazel;
 mod config;
 mod io;

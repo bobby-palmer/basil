@@ -14,7 +14,7 @@ impl super::WithParamsHandler for InitializeBuildHandler {
         ctx: &crate::server::context::Context,
         params: Self::Input,
     ) -> Result<Self::Output, crate::server::error::BasilError> {
-        todo!()
+        Ok(InitializeBuildResult::new())
     }
 }
 
@@ -66,6 +66,17 @@ pub struct InitializeBuildResult {
 
     /// The capabilities of the build server
     capabilities: BuildServerCapabilities,
+}
+
+impl InitializeBuildResult {
+    fn new() -> Self {
+        Self {
+            display_name: "basil".into(),
+            version: env!("CARGO_PKG_VERSION").into(),
+            bsp_version: "2.2.0".into(),
+            capabilities: BuildServerCapabilities::new(),
+        }
+    }
 }
 
 #[derive(Serialize)]
@@ -133,6 +144,28 @@ struct BuildServerCapabilities {
     /// The server can respond to `buildTarget/jvmCompileClasspath` requests
     /// with the necessary information about the target's classpath
     jvm_compile_classpath_provider: Option<bool>,
+}
+
+impl BuildServerCapabilities {
+    fn new() -> Self {
+        Self {
+            compile_provider: None,
+            test_provider: None,
+            run_provider: None,
+            debug_provider: None,
+            inverse_sources_provider: None,
+            dependency_sources_provider: None,
+            dependency_modules_provider: None,
+            resources_provider: None,
+            output_paths_provider: None,
+            build_target_changed_provider: None,
+            jvm_run_environment_provider: None,
+            jvm_test_environment_provider: None,
+            cargo_features_provider: None,
+            can_reload: None,
+            jvm_compile_classpath_provider: None,
+        }
+    }
 }
 
 #[derive(Serialize)]

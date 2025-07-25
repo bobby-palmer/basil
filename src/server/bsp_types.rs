@@ -6,7 +6,7 @@ use serde_with::skip_serializing_none;
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[skip_serializing_none]
-pub struct BuiltTarget {
+pub struct BuildTarget {
     /// The target's unique identifier
     id: BuildTargetIdentifier,
 

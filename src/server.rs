@@ -1,3 +1,4 @@
+mod bsp_types;
 mod context;
 mod error;
 mod notification_handler;

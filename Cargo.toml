@@ -4,12 +4,3 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-anyhow = "1.0.98"
-serde = { version = "1.0.219", features = ["derive"] }
-serde_json = "1.0.141"
-serde_repr = "0.1.20"
-serde_with = "3.14.0"
-tokio = { version = "1.46.1", features = ["full"] }
-tracing = "0.1.41"
-tracing-appender = "0.2.3"
-tracing-subscriber = { version = "0.3.19", features = ["env-filter", "fmt"] }

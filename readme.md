@@ -1,5 +1,2 @@
 # basil
-A build server protocol for bazel implemented in rust
-
-## Setup
-todo
+the project goal for this has changed. Thinking about pivoting to making my own build system bc I hate bazel

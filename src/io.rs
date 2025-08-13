@@ -4,7 +4,6 @@ use tokio::io::{AsyncBufRead, AsyncBufReadExt, AsyncReadExt, AsyncWrite, AsyncWr
 const LENGTH_HEADER: &str = "Content-Length: ";
 
 pub trait MessageWriter {
-
     /// Write a message with content length header.
     /// Not cancellation safe: Do not use in tokio select!
     async fn write_message(&mut self, message: &[u8]) -> Result<()>;
@@ -12,17 +11,17 @@ pub trait MessageWriter {
 
 impl<W> MessageWriter for W
 where
-    W: AsyncWrite + Unpin
+    W: AsyncWrite + Unpin,
 {
     async fn write_message(&mut self, message: &[u8]) -> Result<()> {
-        self.write_all(format!("{}{}\r\n\r\n", LENGTH_HEADER, message.len()).as_bytes()).await?;
+        self.write_all(format!("{}{}\r\n\r\n", LENGTH_HEADER, message.len()).as_bytes())
+            .await?;
         self.write_all(message).await?;
         Ok(())
     }
 }
 
 pub trait MessageReader {
-
     /// Read a message with content length header.
     /// Not cancellation safe: Do not use in tokio select!
     async fn read_message(&mut self) -> Result<Vec<u8>>;
@@ -30,7 +29,7 @@ pub trait MessageReader {
 
 impl<R> MessageReader for R
 where
-    R: AsyncBufRead + Unpin
+    R: AsyncBufRead + Unpin,
 {
     async fn read_message(&mut self) -> Result<Vec<u8>> {
         let mut content_length: Option<usize> = None;
@@ -62,8 +61,8 @@ where
 
 #[cfg(test)]
 mod test {
-    use tokio::io::BufReader;
     use super::*;
+    use tokio::io::BufReader;
 
     #[tokio::test]
     async fn test_matches_input_and_output() {

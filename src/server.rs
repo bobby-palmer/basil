@@ -10,12 +10,12 @@ use serde_json::Value;
 use crate::{bazel::BazelClient, io::{MessageReader, MessageWriter}, server::{error::{BspError, BspErrorKind}, rpc::{RequestMessage, ResponseMessage}}};
 
 
-pub async fn run<R, W>(mut reader: R, mut writer: W, bazel_client: BazelClient) 
+pub async fn run<R, W>(mut reader: R, _writer: W, bazel_client: BazelClient) 
 where
     R: MessageReader,
     W: MessageWriter,
 {
-    let (tx, mut rx) = tokio::sync::mpsc::channel::<Vec<u8>>(64);
+    let (tx, rx) = tokio::sync::mpsc::channel::<Vec<u8>>(64);
 
     // recv and send response
     tokio::spawn(async move {
@@ -26,7 +26,6 @@ where
 
     let ctx = Arc::new(Context::new(tx, bazel_client));
 
-    // read message and spawn handler
     loop {
         let request = reader.read_message().await.unwrap();
         let ctx = ctx.clone();

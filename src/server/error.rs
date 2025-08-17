@@ -4,8 +4,16 @@ use serde::{Serialize, Serializer};
 pub struct BspError {
     #[serde(serialize_with = "serialize_error_code")]
     code: BspErrorKind,
-
     message: String,
+}
+
+impl From<(BspErrorKind, String)> for BspError {
+    fn from(value: (BspErrorKind, String)) -> Self {
+        Self {
+            code: value.0,
+            message: value.1,
+        }
+    }
 }
 
 #[derive(Clone, Copy)]
